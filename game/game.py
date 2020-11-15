@@ -1,44 +1,43 @@
 import pygame
+from game.player.player import Player
 
 class Game:
     def __init__(self):
+        self.run = False
+        pygame.init()
+        pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
+        self.window = pygame.display.set_mode((500, 500))
         return
     
-    def startGame(self):
-        pygame.init()
+    def runGame(self):
+        # init game
+        self.run = True
+        player = Player(50, 440)
 
-        win = pygame.display.set_mode((500, 500))
+        # obstacle and enemy factory here
 
-        pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
-
-        run = True
-
-        vel = 10
-        x = 250
-        y = 250
-
-        while run:
+        while self.run:
 
             pygame.time.delay(50)
 
             for event in pygame.event.get():
-
                 if event.type == pygame.QUIT:
-                    run = False
-
-            keys = pygame.key.get_pressed()
-
-            if keys[pygame.K_LEFT]:
-                x -= vel
-            if keys[pygame.K_RIGHT]:
-                x += vel
-            if keys[pygame.K_UP]:
-                y -= vel
-            if keys[pygame.K_DOWN]:
-                y += vel
+                    self.run = False
             
-            win.fill((0, 0, 0))
-            pygame.draw.rect(win, (255, 0, 0), (x, y, 20, 20) )
+
+            playerPos = player.update()
+
+            self.window.fill((0, 0, 0))
+            
+            self.draw(playerPos)
+
             pygame.display.update()
 
         pygame.quit()
+    
+    
+    # render all objects that are on screen
+    def draw(self, playerPos):
+        # draw player
+        pygame.draw.rect(self.window, (255, 0, 0), (playerPos[0], playerPos[1], 20, 20) )
+        # draw obsticals and enemie
