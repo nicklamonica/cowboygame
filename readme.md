@@ -1,1 +1,3 @@
-### Cowboy Game
+# Cowboy Game
+
+### Bryce Woods, Jaclyn Stickford, Nick LaMonica
