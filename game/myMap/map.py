@@ -1,4 +1,4 @@
-from mapBlock import MapBlock
+from .mapBlock import MapBlock
 
 class Map(MapBlock):
     # double underscore means it is a private method

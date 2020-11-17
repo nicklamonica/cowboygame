@@ -8,15 +8,14 @@ class Game:
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
         self.window = pygame.display.set_mode((500, 500))
-        obstacleFactory =  ObstacleFactory()
-        self.obstacles = obstacleFactory.createObstacles() 
+        self.obstacles = ObstacleFactory().createObstacles() 
     
     def runGame(self):
         # init game
         self.run = True
 
         # create player
-        player = Player(50, 440)
+        self.player = Player(50, 415)
 
         # obstacle and enemy factory here
 
@@ -28,30 +27,29 @@ class Game:
                     self.run = False
             
             # update player position
-            playerPos = player.update()
+            self.player.update()
 
             # update obstacle pos
-            obstaclesPos = []
             for obstacle in self.obstacles:
-                obstaclesPos.append(obstacle.update())
+                obstacle.update()
 
             # update enemy positions
             enemyPos = []
 
             self.window.fill((0, 0, 0))
-            
-            self.draw(playerPos, obstaclesPos, enemyPos)
-
+            self.draw()
             pygame.display.update()
 
         pygame.quit()
     
     
     # render all objects that are on screen
-    def draw(self, playerPos, obstaclesPos, enemyPos):
+    def draw(self):
         # draw player
-        pygame.draw.rect(self.window, (255, 0, 0), (playerPos[0], playerPos[1], 20, 20) )
+        pygame.draw.rect(self.window, (255, 0, 0), (self.player.x, self.player.y, 20, 45))
+
         # draw obsticals and enemies
-        for obstaclePos in obstaclesPos:
-            pygame.draw.rect(self.window, (28, 252, 3) , (obstaclePos[0], obstaclePos[1], 20, 75))
+        for obstacle in self.obstacles:
+            obstacle.draw(self.window)
+
 
