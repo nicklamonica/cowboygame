@@ -1,4 +1,4 @@
-from game.obstacle.obstacle import Obstacle
+from .obstacle import Obstacle
 
 class Bird(Obstacle):
     def __init__(self, startX, startY):

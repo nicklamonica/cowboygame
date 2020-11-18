@@ -1,4 +1,4 @@
-from obstacle import Obstacle
+from .obstacle import Obstacle
 
 class Rock(Obstacle):
     def __init__(self, startX, startY):
