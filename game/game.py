@@ -1,8 +1,10 @@
 import pygame
+from game.myMap.map import Map
 from game.player.player import Player
 from game.obstacle.obstacleFactory import ObstacleFactory
+from game.player.enemyFactory import EnemyFactory
 
-class Game:
+class Game(Map, ObstacleFactory, EnemyFactory, Player):
     def __init__(self):
         self.run = False
         pygame.init()

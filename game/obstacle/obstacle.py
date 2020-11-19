@@ -1,15 +1,15 @@
+from abc import ABC, abstractmethod
 import pygame
 
-class Obstacle:
+class Obstacle(ABC):
 
     def __init__(self, startX, startY):
         self.x, self.y = startX, startY
         self.height, self.width = 0, 0
         self.color = (28, 252, 3)
-
+    @abstractmethod
     def update(self):
-        self.x -= 5
-        return self.x, self.y
-
+        pass
+    @abstractmethod
     def draw(self, window):
-        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
+        pass
