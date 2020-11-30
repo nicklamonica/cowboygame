@@ -1,14 +1,17 @@
 import pygame
+import os
 from game.myMap.map import Map
 from game.player.player import Player
 from game.obstacle.obstacleFactory import ObstacleFactory
 from game.player.enemyFactory import EnemyFactory
 
 class Game(Map, ObstacleFactory, EnemyFactory, Player):
-    def __init__(self):
+    def __init__(self, root_path):
         self.run = False
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
+        self.assets_path = os.path.join(root_path, 'assets')
+
         self.window = pygame.display.set_mode((500, 500))
         self.obstacles = ObstacleFactory().createObstacles()
 
@@ -87,7 +90,7 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         self.run = True
 
         # create player
-        self.player = Player(50, 415)
+        self.player = Player(50, 415, os.path.join(self.assets_path, 'player'))
 
         # obstacle and enemy factory here
 
@@ -95,6 +98,7 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
             pygame.time.delay(50)
 
             for event in pygame.event.get():
+                # check for quit
                 if event.type == pygame.QUIT:
                     self.run = False
 
@@ -108,18 +112,24 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
             # update enemy positions
             enemyPos = []
 
-            self.window.fill((0, 0, 0))
+            # update screen
             self.draw()
-            pygame.display.update()
+            
 
         pygame.quit()
 
 
     # render all objects that are on screen
     def draw(self):
+        # draw background
+        self.window.fill((0, 0, 0))
+
         # draw player
-        pygame.draw.rect(self.window, (255, 0, 0), (self.player.x, self.player.y, 20, 45))
+        self.player.draw(self.window)
 
         # draw obsticals and enemies
         for obstacle in self.obstacles:
             obstacle.draw(self.window)
+
+        # update the display
+        pygame.display.update()

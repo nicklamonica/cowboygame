@@ -1,14 +1,20 @@
 import pygame
+import os
 from game.player.fightBehavior import *
 
 
 class Player(FightBehavior):
-    def __init__(self, startX, startY):
+    def __init__(self, startX, startY, assetsPath):
         self.x, self.y = startX, startY
         self.isJumping = False
         self.jumpHeight = 10
+        self.walkingIter = 0
         self.health = 100
         self.fb = FightBehavior()
+        print(assetsPath)
+        self.walk = [pygame.image.load(os.path.join(assetsPath, "walk" + str(i) + ".png")) for i in range(4)]
+
+        self.jump = pygame.image.load(os.path.join(assetsPath, "jump.png"))
 
     def update(self):
         y = 0
@@ -18,8 +24,13 @@ class Player(FightBehavior):
                 self.isJumping = True
         else:
             self.y, self.jumpHeight, self.isJumping = self.fb.fJump(self.jumpHeight, self.y, self.isJumping)
-            print(self.y)
         return self.x, self.y
+    
+    def draw(self, win):
+        if self.isJumping == True:
+            win.blit(self.jump, (self.x, self.y))
+        else:
+            self.walkingIter = (self.walkingIter+1) % (len(self.walk)*3)
+            win.blit(self.walk[self.walkingIter//3], (self.x, self.y))
 
     
-

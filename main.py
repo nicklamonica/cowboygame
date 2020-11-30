@@ -1,7 +1,9 @@
 from game.game import Game
+import os
 
 def main():
-    g = Game()
+    rootDir = os.path.dirname(__file__)
+    g = Game(rootDir)
     g.runMenu()
     #g.runGame()
 
