@@ -1,13 +1,14 @@
 import pygame
+import os
 from .obstacle import Obstacle
 
 class Rock(Obstacle):
-    def __init__(self, startX, startY):
-        super().__init__(startX, startY)
-        self.width, self.height = 20, 20
+    def __init__(self, startX, startY, asset_dir):
+        super().__init__(startX, startY, asset_dir)
+        self.width, self.height = 30, 30
         self.color = (97, 94, 87)
-    def update(self):
-        self.x -= 5
-        return self.x, self.y
+        self.rock = pygame.image.load(os.path.join(asset_dir, "rock.png"))
+        self.rock = pygame.transform.scale(self.rock, (self.width, self.height))
+
     def draw(self, window):
-        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
+        window.blit(self.rock, (self.x, self.y))

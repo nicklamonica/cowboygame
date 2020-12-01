@@ -6,6 +6,7 @@ from game.player.fightBehavior import *
 class Player(FightBehavior):
     def __init__(self, startX, startY, assetsPath):
         self.x, self.y = startX, startY
+        self.width, self.height = 50, 50
         self.isJumping = False
         self.jumpHeight = 10
         self.walkingIter = 0
@@ -13,7 +14,9 @@ class Player(FightBehavior):
         self.fb = FightBehavior()
         print(assetsPath)
         self.walk = [pygame.image.load(os.path.join(assetsPath, "walk" + str(i) + ".png")) for i in range(4)]
-
+        for i in range(len(self.walk)):
+            self.walk[i] = pygame.transform.scale(self.walk[i], (self.width, self.height))
+        
         self.jump = pygame.image.load(os.path.join(assetsPath, "jump.png"))
 
     def update(self):

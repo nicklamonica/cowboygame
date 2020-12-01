@@ -11,9 +11,10 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
         self.assets_path = os.path.join(root_path, 'assets')
-
-        self.window = pygame.display.set_mode((500, 500))
-        self.obstacles = ObstacleFactory().createObstacles()
+        self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
+        self.bg = pygame.transform.scale(self.bg, (600, 600))
+        self.window = pygame.display.set_mode((600, 600))
+        self.obstacleFactory = ObstacleFactory()
 
     def runMenu(self):
         lightblue = (4, 163, 235)
@@ -88,9 +89,10 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
     def runGame(self):
         # init game
         self.run = True
-
+        diff = 2
+        newObs = 0
         # create player
-        self.player = Player(50, 415, os.path.join(self.assets_path, 'player'))
+        self.player = Player(50, 485, os.path.join(self.assets_path, 'player'))
 
         # obstacle and enemy factory here
 
@@ -106,12 +108,17 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
             self.player.update()
 
             # update obstacle pos
+            if newObs <= 0:
+                self.obstacles = self.obstacleFactory.createObstacles(self.assets_path)
+                newObs = 3200
+                if diff < 25:
+                    diff += 3
             for obstacle in self.obstacles:
-                obstacle.update()
+                obstacle.update(diff)
 
             # update enemy positions
             enemyPos = []
-
+            newObs -= diff
             # update screen
             self.draw()
             
@@ -122,7 +129,7 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
     # render all objects that are on screen
     def draw(self):
         # draw background
-        self.window.fill((0, 0, 0))
+        self.window.blit(self.bg, (0,0))
 
         # draw player
         self.player.draw(self.window)
