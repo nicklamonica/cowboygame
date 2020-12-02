@@ -5,6 +5,9 @@ from game.player.player import Player
 from game.obstacle.obstacleFactory import ObstacleFactory
 from game.player.enemyFactory import EnemyFactory
 from game.player.healthBar import HealthBar
+from game.highScore.highScore import highScore
+from game.highScore.fileAdapter import fileAdapter
+from game.highScore.myFile import myFile
 
 class Game(Map, ObstacleFactory, EnemyFactory, Player):
     def __init__(self, root_path):
@@ -130,6 +133,17 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
 
         pygame.quit()
 
+    # This function will get you the current highscore, it takes in the currentScore
+    # and adds it to the file
+    def getHighScore(self, currentScore):
+        scoreObject = highScore()
+        # Using the adapter pattern here, because when our game gets big we'll need
+        # to connect to a database instead of using a text file to log high scores
+        myFileAdapter = fileAdapter()
+        adaptee = myFile()
+
+        hs = myFileAdapter.highScoreRequest(currentScore)
+        return hs
 
     # render all objects that are on screen
     def draw(self):
