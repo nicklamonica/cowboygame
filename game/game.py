@@ -4,6 +4,7 @@ from game.myMap.map import Map
 from game.player.player import Player
 from game.obstacle.obstacleFactory import ObstacleFactory
 from game.player.enemyFactory import EnemyFactory
+from game.player.healthBar import HealthBar
 
 class Game(Map, ObstacleFactory, EnemyFactory, Player):
     def __init__(self, root_path):
@@ -91,8 +92,12 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         self.run = True
         diff = 2
         newObs = 0
+
         # create player
         self.player = Player(50, 485, os.path.join(self.assets_path, 'player'))
+
+        #create healthBar
+        self.healthBar = HealthBar((255,0,0), 200, 20, 200, 20, 100, self.window)
 
         # obstacle and enemy factory here
 
@@ -121,7 +126,7 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
             newObs -= diff
             # update screen
             self.draw()
-            
+
 
         pygame.quit()
 
@@ -137,6 +142,9 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         # draw obsticals and enemies
         for obstacle in self.obstacles:
             obstacle.draw(self.window)
+
+        # health bar
+        self.healthBar.draw(self.window)
 
         # update the display
         pygame.display.update()
