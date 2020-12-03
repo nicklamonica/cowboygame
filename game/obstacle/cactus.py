@@ -9,6 +9,7 @@ class Cactus(Obstacle):
         self.color = (28, 252, 3)
         self.cactus = pygame.image.load(os.path.join(asset_dir, "cactus.png"))
         self.cactus = pygame.transform.scale(self.cactus, (self.width, self.height))
+        self.damage = 25
         
     def draw(self, window):
         window.blit(self.cactus, (self.x, self.y))

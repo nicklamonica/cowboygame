@@ -1,5 +1,6 @@
 from .obstacleFactory import ObstacleFactory
 import random
+import pygame
 
 class Map:
     def __init__(self, asset_root, numObs):
@@ -22,6 +23,7 @@ class Map:
     def draw(self, window):
         for obstacle in self.obstacles:
             obstacle.draw(window)
+            pygame.draw.rect(window, (255, 0, 0), obstacle.getHitbox(), 2)
 
     def resetObstacles(self):
         i = random.randint(0, self.numObs-1)

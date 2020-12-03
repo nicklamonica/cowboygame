@@ -95,9 +95,10 @@ class Game:
         # init game
         self.run = True
         difficulty = 6
+        score = 0
 
         # create player
-        self.player = Player(50, 485, os.path.join(self.assets_path, 'player'))
+        self.player = Player(50, 475, os.path.join(self.assets_path, 'player'))
 
         #create healthBar
         self.healthBar = HealthBar((255,0,0), 200, 20, 200, 20, 100, self.window)
@@ -115,6 +116,8 @@ class Game:
             newDiff = self.map.update(difficulty)
             if newDiff and difficulty < 24:
                 difficulty += 3
+            
+            score += difficulty
             # update screen
             self.draw()
 
