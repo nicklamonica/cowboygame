@@ -7,25 +7,26 @@ class FightBehavior:
         pass
 
     def punch(self):
-        p = punch()
+        p = Punch()
     
-    def fJump(self, jumpHeight, y, isJumping):
-        j = jump(jumpHeight, y, isJumping)
+    def jump(self, jumpHeight, y, isJumping):
+        j = Jump(jumpHeight, y, isJumping)
         y = j.doAction()
         return y
 
-    def duck(self):
-        d = duck()
+    def duck(self, height, isDucking):
+        d = Duck(height, isDucking)
+        return d.doAction()
     
     def shoot(self):
-        s = shoot()
+        s = Shoot()
     
 
-class punch(FightBehavior):
+class Punch(FightBehavior):
     def __init__(self):
         pass
 
-class jump(FightBehavior):
+class Jump(FightBehavior):
     def __init__(self, jumpHeight, y, isJumping):
         self.y = y
         self.jumpHeight = jumpHeight
@@ -44,10 +45,13 @@ class jump(FightBehavior):
         return self.y, self.jumpHeight, self.isJumping
 
 
-class duck(FightBehavior):
-    def __init__(self):
-        pass
+class Duck(FightBehavior):
+    def __init__(self, height, isDucking):
+        self.height, self.isDucking = height, isDucking
 
-class shoot(FightBehavior): 
+    def doAction(self):
+        return self.height, True
+
+class Shoot(FightBehavior): 
     def __init__(self):
         pass
