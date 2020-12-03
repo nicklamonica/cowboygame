@@ -39,11 +39,10 @@ class Map:
         for obstacle in self.obstacles:
             obsX, obsY, obsHeight, obsWidth = obstacle.getHitbox()
             obsTop, obsBottom =  obsY + (obsHeight / 2) , obsY - (obsHeight / 2)
-            obsRight, obsLeft =  obsX + (obsWidth / 2) , obsX - (obsWidth / 2)    
+            obsRight, obsLeft =  obsX + (obsWidth / 2) , obsX - (obsWidth / 2)
+            # if you have collided with an object
             if (playerLeft < obsRight and playerRight > obsLeft and \
                 playerTop > obsBottom and playerBottom < obsTop  and not obstacle.hasCollided):
                 obstacle.hasCollided = True
                 return obstacle.damage
-
-
         return 0

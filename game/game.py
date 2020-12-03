@@ -4,7 +4,7 @@ from game.obstacle.map import Map
 
 from game.player.player import Player
 from game.player.enemyFactory import EnemyFactory
-from game.player.healthBar import HealthBar
+from game.player.statusBar import StatusBar
 
 from game.highScore.highScore import highScore
 from game.highScore.fileAdapter import fileAdapter
@@ -94,14 +94,14 @@ class Game:
     def runGame(self):
         # init game
         self.run = True
-        difficulty = 6
+        difficulty = 9
         score = 0
 
         # create player
         self.player = Player(50, 475, os.path.join(self.assets_path, 'player'))
 
-        #create healthBar
-        self.healthBar = HealthBar((255,0,0), 200, 20, 200, 20, 100, self.window)
+        #create statusBar
+        self.statusBar = StatusBar(self.window)
 
         while self.run:
             pygame.time.delay(50)
@@ -119,12 +119,14 @@ class Game:
             
             # check if player is colliding with obsticle
             damage = self.map.checkCollision(self.player.getHitbox())
-            player.health -= damage
-            if player.health <= 0:
-                print("you have died")
+            self.player.health -= damage
+            if self.player.health <= 0:
                 self.run = False
-            score += difficulty
+            score += 1
             # update screen
+            self.statusBar.updateHealth(self.player.health)
+            self.statusBar.updateScore(score)
+            # draw to screen
             self.draw()
 
         pygame.quit()
@@ -153,7 +155,7 @@ class Game:
         self.map.draw(self.window)
 
         # health bar
-        self.healthBar.draw(self.window)
+        self.statusBar.draw(self.window)
 
         # update the display
         pygame.display.update()

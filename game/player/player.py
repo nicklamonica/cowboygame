@@ -19,7 +19,7 @@ class Player(FightBehavior):
         self.jump = pygame.image.load(os.path.join(assetsPath, "jump.png"))
 
     def getHitbox(self):
-        return (self.x-2, self.y+10, self.width-5, self.height-10)
+        return (self.x+5, self.y+15, self.width-20, self.height-15)
 
     def update(self):
         y = 0
@@ -38,5 +38,4 @@ class Player(FightBehavior):
             self.walkingIter = (self.walkingIter+1) % (len(self.walk)*3)
             win.blit(self.walk[self.walkingIter//3], (self.x, self.y))
         pygame.draw.rect(win, (255, 0, 0), self.getHitbox(), 2)
-
     

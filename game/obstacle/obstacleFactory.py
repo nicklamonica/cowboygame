@@ -12,7 +12,7 @@ class ObstacleFactory:
         for i in range(3, numObstacles*3+1, 3):
             rand = random.randint(0, 2)
             if rand == 0:
-                obstacles.append(Cactus(600 + random.randint(100, 200) + (100*i), 460, os.path.join(asset_root, 'cactus')))
+                obstacles.append(Cactus(600 + random.randint(100, 200) + (100*i), 480, os.path.join(asset_root, 'cactus')))
             elif rand == 1:
                 obstacles.append(Bird(600 + random.randint(100, 200) + (100*i), 445, os.path.join(asset_root, 'bird')))
             else:
