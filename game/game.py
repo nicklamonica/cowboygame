@@ -13,9 +13,16 @@ from game.highScore.myFile import myFile
 class Game:
     def __init__(self, root_path):
         self.run = False
+        self.assets_path = os.path.join(root_path, 'assets')
+        pygame.mixer.init(44000, -16, 2, 512)
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
-        self.assets_path = os.path.join(root_path, 'assets')
+        musicFile = os.path.join(self.assets_path, 'fast.mp3')
+        self.sound = pygame.mixer.Sound(musicFile)
+        self.playSound = pygame.mixer.Sound.play
+        self.stopSound = pygame.mixer.Sound.stop
+
+        
         self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
         self.bg = pygame.transform.scale(self.bg, (600, 600))
         self.window = pygame.display.set_mode((600, 600))
@@ -96,13 +103,14 @@ class Game:
         self.run = True
         difficulty = 9
         score = 0
+        level = 1
 
         # create player
         self.player = Player(50, 475, os.path.join(self.assets_path, 'player'))
 
         #create statusBar
         self.statusBar = StatusBar(self.window)
-
+        self.playSound(self.sound, -1, 0, 200)
         while self.run:
             pygame.time.delay(50)
 
@@ -115,6 +123,8 @@ class Game:
             self.player.update()
             newDiff = self.map.update(difficulty)
             if newDiff and difficulty < 24:
+                level+=1
+                self.statusBar.updateLevel(level)
                 difficulty += 3
             
             # check if player is colliding with obsticle

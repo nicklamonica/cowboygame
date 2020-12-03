@@ -36,7 +36,7 @@ class jump(FightBehavior):
             reverse = 1
             if self.jumpHeight < 0:
                 reverse = -1
-            self.y -= (self.jumpHeight ** 2) * 0.5 * reverse
+            self.y -= (self.jumpHeight ** 2) * 0.4 * reverse
             self.jumpHeight -= 1
         else:
             self.isJumping = False
