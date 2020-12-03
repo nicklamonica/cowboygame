@@ -57,5 +57,4 @@ class Player(FightBehavior):
         else:
             self.walkingIter = (self.walkingIter+1) % (len(self.walk)*3)
             win.blit(self.walk[self.walkingIter//3], (self.x, self.y))
-        pygame.draw.rect(win, (255, 0, 0), self.getHitbox(), 2)
     

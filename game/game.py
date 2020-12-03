@@ -14,13 +14,8 @@ class Game:
     def __init__(self, root_path):
         self.run = False
         self.assets_path = os.path.join(root_path, 'assets')
-        pygame.mixer.init(44000, -16, 2, 512)
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
-        musicFile = os.path.join(self.assets_path, 'fast.mp3')
-        self.sound = pygame.mixer.Sound(musicFile)
-        self.playSound = pygame.mixer.Sound.play
-        self.stopSound = pygame.mixer.Sound.stop
 
         
         self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
@@ -110,7 +105,6 @@ class Game:
 
         #create statusBar
         self.statusBar = StatusBar(self.window)
-        self.playSound(self.sound, -1, 0, 200)
         while self.run:
             pygame.time.delay(50)
 

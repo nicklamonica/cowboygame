@@ -23,7 +23,6 @@ class Map:
     def draw(self, window):
         for obstacle in self.obstacles:
             obstacle.draw(window)
-            pygame.draw.rect(window, (255, 0, 0), obstacle.getHitbox(), 2)
 
     def resetObstacles(self):
         i = random.randint(0, self.numObs-1)
