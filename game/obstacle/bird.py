@@ -16,3 +16,6 @@ class Bird(Obstacle):
     def draw(self, window):
         self.flyingIter = (self.flyingIter+1) % (len(self.fly)*3)
         window.blit(self.fly[self.flyingIter//3], (self.x, self.y))
+    def update(self, diff):
+        self.x -= diff
+        self.y = -(1 / 1024) * (self.x+10)**2 + 475
