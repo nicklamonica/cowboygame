@@ -1,15 +1,16 @@
 import pygame
 import os
-from game.myMap.map import Map
+from game.obstacle.map import Map
+
 from game.player.player import Player
-from game.obstacle.obstacleFactory import ObstacleFactory
 from game.player.enemyFactory import EnemyFactory
 from game.player.healthBar import HealthBar
+
 from game.highScore.highScore import highScore
 from game.highScore.fileAdapter import fileAdapter
 from game.highScore.myFile import myFile
 
-class Game(Map, ObstacleFactory, EnemyFactory, Player):
+class Game:
     def __init__(self, root_path):
         self.run = False
         pygame.init()
@@ -18,7 +19,7 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
         self.bg = pygame.transform.scale(self.bg, (600, 600))
         self.window = pygame.display.set_mode((600, 600))
-        self.obstacleFactory = ObstacleFactory()
+        self.map = Map(self.assets_path, 15)
 
     def runMenu(self):
         lightblue = (4, 163, 235)
@@ -93,16 +94,13 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
     def runGame(self):
         # init game
         self.run = True
-        diff = 2
-        newObs = 0
+        difficulty = 6
 
         # create player
         self.player = Player(50, 485, os.path.join(self.assets_path, 'player'))
 
         #create healthBar
         self.healthBar = HealthBar((255,0,0), 200, 20, 200, 20, 100, self.window)
-
-        # obstacle and enemy factory here
 
         while self.run:
             pygame.time.delay(50)
@@ -114,22 +112,11 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
 
             # update player position
             self.player.update()
-
-            # update obstacle pos
-            if newObs <= 0:
-                self.obstacles = self.obstacleFactory.createObstacles(self.assets_path)
-                newObs = 3200
-                if diff < 25:
-                    diff += 3
-            for obstacle in self.obstacles:
-                obstacle.update(diff)
-
-            # update enemy positions
-            enemyPos = []
-            newObs -= diff
+            newDiff = self.map.update(difficulty)
+            if newDiff and difficulty < 24:
+                difficulty += 3
             # update screen
             self.draw()
-
 
         pygame.quit()
 
@@ -153,9 +140,8 @@ class Game(Map, ObstacleFactory, EnemyFactory, Player):
         # draw player
         self.player.draw(self.window)
 
-        # draw obsticals and enemies
-        for obstacle in self.obstacles:
-            obstacle.draw(self.window)
+        # draw map
+        self.map.draw(self.window)
 
         # health bar
         self.healthBar.draw(self.window)
