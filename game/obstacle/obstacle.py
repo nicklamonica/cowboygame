@@ -8,6 +8,7 @@ class Obstacle(ABC):
         self.height, self.width = 0, 0
         self.color = (28, 252, 3)
         self.damage = 10
+        self.hasCollided = False
 
     def getHitbox(self):
         return (self.x, self.y, self.width, self.height)

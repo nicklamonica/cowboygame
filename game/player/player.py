@@ -12,7 +12,6 @@ class Player(FightBehavior):
         self.walkingIter = 0
         self.health = 100
         self.fb = FightBehavior()
-        print(assetsPath)
         self.walk = [pygame.image.load(os.path.join(assetsPath, "walk" + str(i) + ".png")) for i in range(4)]
         for i in range(len(self.walk)):
             self.walk[i] = pygame.transform.scale(self.walk[i], (self.width, self.height))

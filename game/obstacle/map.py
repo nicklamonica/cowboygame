@@ -29,8 +29,21 @@ class Map:
         i = random.randint(0, self.numObs-1)
         for obstacle in self.obstacles:
             obstacle.x = 600 + random.randint(150-i, 200) + (100*i)
+            obstacle.hasCollided = False
             i = (i + 3) % (self.numObs*3)
 
+    def checkCollision(self, playerPos):
+        playerX, playerY, playerHeight, playerWidth = playerPos
+        playerTop, playerBottom =  playerY + (playerHeight / 2) , playerY - (playerHeight / 2)
+        playerRight, playerLeft =  playerX + (playerWidth / 2) , playerX - (playerWidth / 2)
+        for obstacle in self.obstacles:
+            obsX, obsY, obsHeight, obsWidth = obstacle.getHitbox()
+            obsTop, obsBottom =  obsY + (obsHeight / 2) , obsY - (obsHeight / 2)
+            obsRight, obsLeft =  obsX + (obsWidth / 2) , obsX - (obsWidth / 2)    
+            if (playerLeft < obsRight and playerRight > obsLeft and \
+                playerTop > obsBottom and playerBottom < obsTop  and not obstacle.hasCollided):
+                obstacle.hasCollided = True
+                return obstacle.damage
 
 
-            
+        return 0

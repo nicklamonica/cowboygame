@@ -117,6 +117,12 @@ class Game:
             if newDiff and difficulty < 24:
                 difficulty += 3
             
+            # check if player is colliding with obsticle
+            damage = self.map.checkCollision(self.player.getHitbox())
+            player.health -= damage
+            if player.health <= 0:
+                print("you have died")
+                self.run = False
             score += difficulty
             # update screen
             self.draw()
