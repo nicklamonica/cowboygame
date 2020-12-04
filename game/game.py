@@ -21,7 +21,7 @@ class Game:
         self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
         self.bg = pygame.transform.scale(self.bg, (600, 600))
         self.window = pygame.display.set_mode((600, 600))
-        self.map = Map(self.assets_path, 15)
+        self.map = None
 
     def runMenu(self):
         lightblue = (4, 163, 235)
@@ -161,7 +161,7 @@ class Game:
         difficulty = 9
         score = 0
         level = 1
-
+        self.map = Map(self.assets_path, 15)
         # create player
         self.player = Player(50, 475, os.path.join(self.assets_path, 'player'))
 
