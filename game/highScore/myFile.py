@@ -9,10 +9,10 @@ class myFile:
         fileList = fileObject.readlines()
         newList = []
         for element in fileList:
-            newList.append(element.strip("\n"))
+            newList.append(int(element.strip("\n")))
         #print(newList)
         fileObject.close()
-        #print(max(newList))
+        print(newList)
         return max(newList)
 
     def addScore(self, currentScore):

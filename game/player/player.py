@@ -13,14 +13,19 @@ class Player(FightBehavior):
         self.duckingY = self.y + self.DUCKING_HEIGHT
         self.isJumping = False
         self.isDucking = False
+        self.isShooting = False
         self.jumpHeight = 10
+        self.shootingIter = 0
         self.walkingIter = 0
         self.health = 100
         self.fb = FightBehavior()
         self.walk = [pygame.image.load(os.path.join(assetsPath, "walk" + str(i) + ".png")) for i in range(4)]
         for i in range(len(self.walk)):
             self.walk[i] = pygame.transform.scale(self.walk[i], (self.width, self.height))
-        
+        self.shoot = [pygame.image.load(os.path.join(assetsPath, "shoot" + str(i) + ".png")) for i in range(4)]
+        for i in range(len(self.shoot)):
+            self.shoot[i] = pygame.transform.scale(self.shoot[i], (self.width, self.height))
+
         self.duck = pygame.image.load(os.path.join(assetsPath, "duck.png"))
         self.jump = pygame.image.load(os.path.join(assetsPath, "jump.png"))
 
@@ -35,26 +40,34 @@ class Player(FightBehavior):
                 self.isJumping = True
             elif keys[pygame.K_DOWN]:
                 self.isDucking = True
+            elif keys[pygame.K_SPACE]:
+                self.isShooting = True
             else:
                 self.isDucking = False
+                self.isShooting = False
         if self.isJumping:
             self.y, self.jumpHeight, self.isJumping = self.fb.jump(self.jumpHeight, self.y, self.isJumping)
         elif self.isDucking:
             self.fb.duck(self.height, self.isDucking)
             self.height = self.DUCKING_HEIGHT
             self.y = self.duckingY
+        elif self.isShooting:
+            self.fb.shoot(self.isShooting)
         else:
             self.isJumping = False
             self.isDucking = False
+            self.isShooting = False
             self.height = self.STANDING_HEIGHT
             self.y = 475
-        
+
     def draw(self, win):
         if self.isJumping:
             win.blit(self.jump, (self.x, self.y))
         elif self.isDucking:
             win.blit(self.duck, (self.x, self.y))
+        elif self.isShooting:
+            self.shootingIter = (self.shootingIter + 1) % (len(self.shoot) * 3)
+            win.blit(self.shoot[self.shootingIter // 3], (self.x, self.y))
         else:
             self.walkingIter = (self.walkingIter+1) % (len(self.walk)*3)
             win.blit(self.walk[self.walkingIter//3], (self.x, self.y))
-    

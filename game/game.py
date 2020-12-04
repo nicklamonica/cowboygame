@@ -17,7 +17,7 @@ class Game:
         pygame.init()
         pygame.display.set_caption("Rootin Tootin Yeehaw Simulator")
 
-        
+
         self.bg = pygame.image.load(os.path.join(self.assets_path, 'background.png'))
         self.bg = pygame.transform.scale(self.bg, (600, 600))
         self.window = pygame.display.set_mode((600, 600))
@@ -92,6 +92,66 @@ class Game:
 
                 pygame.display.update()
 
+    def runEndScreen(self, score):
+        lightblue = (4, 163, 235)
+        gold = (252, 186, 3)
+
+        X = 600
+        Y = 600
+
+        display_surface = pygame.display.set_mode((X, Y))
+
+        background = pygame.image.load("game/background.png")
+        font = pygame.font.SysFont('rockwell', 32)
+
+        highScore = self.getHighScore(score)
+
+        text0 = font.render("High Score", True, gold, lightblue)
+        textRect0 = text0.get_rect()
+        textRect0.center = (290, 150)
+
+        text1 = font.render(str(highScore), True, gold, lightblue)
+        textRect1 = text1.get_rect()
+        textRect1.center = (290, 200)
+
+        text4 = font.render("Play", True, lightblue, gold)
+        textRect4 = text4.get_rect()
+        textRect4.center = (290, 400)
+
+        text5 = font.render("Exit", True, gold, lightblue)
+        textRect5 = text5.get_rect()
+        textRect5.center = (295, 500)
+
+        while True:
+            display_surface.blit(background, (0,0))
+            display_surface.blit(text0, textRect0)
+            display_surface.blit(text1, textRect1)
+            display_surface.blit(text4, textRect4)
+            display_surface.blit(text5, textRect5)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        text5 = font.render("Exit", True, gold, lightblue)
+                        text4 = font.render("Play", True, lightblue, gold)
+                        selection = "play"
+                    if event.key == pygame.K_DOWN:
+                        text4 = font.render("Play", True, gold, lightblue)
+                        text5 = font.render("Exit", True, lightblue, gold)
+                        selection = "exit"
+                    if event.key == pygame.K_RETURN:
+                        if(selection == "play"):
+                            self.runGame()
+                        else:
+                            pygame.quit()
+                            quit()
+
+
+            pygame.display.update()
+
 
     def runGame(self):
         # init game
@@ -120,12 +180,13 @@ class Game:
                 level+=1
                 self.statusBar.updateLevel(level)
                 difficulty += 3
-            
+
             # check if player is colliding with obsticle
             damage = self.map.checkCollision(self.player.getHitbox())
             self.player.health -= damage
             if self.player.health <= 0:
-                self.run = False
+                self.runEndScreen(score)
+                #self.run = False
             score += 1
             # update screen
             self.statusBar.updateHealth(self.player.health)
