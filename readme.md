@@ -1,4 +1,4 @@
-# Rootin' Tootin' Yehaw Simulator
+# Rootin' Tootin' Yehaw Simulator 🤠 🤠 🤠 
 
 ### Bryce Woods, Jaclyn Stickford, Nick La Monica
 
@@ -12,7 +12,7 @@ You need Python version 3.6 or later and the latest version of PyGame installed.
 ```bash
 python main.py
 ```
-4. Have Fun Cowboy/girl/them/the!
+4. Have Fun rootin' and tootin' human!!!
 
 ## How to Play This Game
 Avoid obstacles like cactii, birds, and rocks by ducking and jumping with the up and down arrows. Shoot with space for extra points!
