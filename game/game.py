@@ -106,6 +106,8 @@ class Game:
 
         highScore = self.getHighScore(score)
 
+        selection = "play"
+
         text0 = font.render("High Score", True, gold, lightblue)
         textRect0 = text0.get_rect()
         textRect0.center = (290, 150)
