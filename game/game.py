@@ -161,7 +161,13 @@ class Game:
         difficulty = 9
         score = 0
         level = 1
+        # create the game map
         self.map = Map(self.assets_path, 15)
+
+        # load and play music
+        pygame.mixer.music.load(filename=os.path.join(self.assets_path, 'fast.mp3'))
+        pygame.mixer.music.play(loops=3)
+
         # create player
         self.player = Player(50, 475, os.path.join(self.assets_path, 'player'))
 
@@ -195,7 +201,7 @@ class Game:
             self.statusBar.updateScore(score)
             # draw to screen
             self.draw()
-
+        pygame.mixer.music.unload()
         pygame.quit()
 
     # This function will get you the current highscore, it takes in the currentScore
